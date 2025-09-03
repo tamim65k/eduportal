@@ -11,9 +11,10 @@ interface FloatingAction {
 
 interface FloatingActionButtonProps {
   userRole: UserRole;
+  onAccessibilityClick: () => void;
 }
 
-export default function FloatingActionButton({ userRole }: FloatingActionButtonProps) {
+export default function FloatingActionButton({ userRole, onAccessibilityClick }: FloatingActionButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   const getActionsForRole = (role: UserRole): FloatingAction[] => {
@@ -90,6 +91,19 @@ export default function FloatingActionButton({ userRole }: FloatingActionButtonP
         </div>
       )}
 
+      {/* Accessibility Button */}
+      <div className="mb-3 flex justify-end">
+        <button
+          onClick={onAccessibilityClick}
+          className={`w-12 h-12 ${colors.main} text-white rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center`}
+          aria-label="Accessibility settings"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+          </svg>
+        </button>
+      </div>
+
       {/* Main FAB */}
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -98,6 +112,8 @@ export default function FloatingActionButton({ userRole }: FloatingActionButtonP
           userRole === 'teacher' ? 'focus:ring-teacher-300' :
           'focus:ring-admin-300'
         }`}
+        aria-expanded={isOpen}
+        aria-label={isOpen ? 'Close actions' : 'Open actions'}
       >
         <PlusIcon 
           className={`w-6 h-6 mx-auto transition-transform duration-200 ${isOpen ? 'rotate-45' : 'rotate-0'}`} 

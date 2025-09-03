@@ -95,14 +95,19 @@ export default function GlassmorphismSidebar() {
     }
   };
 
+  const roleGradient = getRoleGradient(user.role);
+  const activeGlow = getActiveGlow(user.role);
+
   return (
-    <div className="fixed left-4 top-4 w-72 z-50" style={{ bottom: '120px' }}>
-      {/* Solid Container */}
+    <div className={`fixed left-4 top-4 w-72 z-50 ${activeGlow}`} style={{ bottom: '120px' }}>
+      {/* Glass Container with role-based gradient */}
       <div className={`
         h-full rounded-2xl 
-        bg-white border border-gray-200 
+        bg-white/80 backdrop-blur-md 
+        border border-white/20 
         shadow-2xl shadow-black/5
         animate-float
+        ${roleGradient}
       `}>
         {/* Header */}
         <div className="p-6 border-b border-gray-200">

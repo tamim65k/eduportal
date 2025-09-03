@@ -13,7 +13,15 @@ interface AccessibilityPanelProps {
 }
 
 export default function AccessibilityPanel({ isOpen, onClose }: AccessibilityPanelProps) {
-  const { isDarkMode, toggleDarkMode, fontSize, setFontSize, highContrast, toggleHighContrast } = useTheme();
+  const { 
+    theme, 
+    isDark, 
+    toggleTheme, 
+    fontSize, 
+    setFontSize, 
+    highContrast, 
+    toggleHighContrast 
+  } = useTheme();
 
   if (!isOpen) return null;
 
@@ -35,22 +43,24 @@ export default function AccessibilityPanel({ isOpen, onClose }: AccessibilityPan
             {/* Dark Mode Toggle */}
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
-                {isDarkMode ? (
+                {isDark ? (
                   <MoonIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                 ) : (
                   <SunIcon className="h-5 w-5 text-gray-600 dark:text-gray-300" />
                 )}
-                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Dark Mode</span>
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {theme === 'system' ? 'System' : isDark ? 'Dark' : 'Light'} Mode
+                </span>
               </div>
               <button
-                onClick={toggleDarkMode}
+                onClick={toggleTheme}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  isDarkMode ? 'bg-blue-600' : 'bg-gray-200'
+                  isDark ? 'bg-blue-600' : 'bg-gray-200'
                 }`}
               >
                 <span
                   className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                    isDarkMode ? 'translate-x-6' : 'translate-x-1'
+                    isDark ? 'translate-x-6' : 'translate-x-1'
                   }`}
                 />
               </button>

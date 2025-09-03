@@ -6,14 +6,12 @@ import {
   DocumentTextIcon,
   PlayIcon,
   CheckCircleIcon,
-  ExclamationTriangleIcon,
   PlusIcon,
   AcademicCapIcon
 } from '@heroicons/react/24/outline';
 
 export default function Exams() {
   const { user } = useAuth();
-  const [selectedExam, setSelectedExam] = useState<string | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const getExamStatusColor = (examDate: string) => {
@@ -106,7 +104,7 @@ export default function Exams() {
               <div className="mt-6 flex space-x-3">
                 {user?.role === 'student' && !isPast && (
                   <button
-                    onClick={() => setSelectedExam(exam.id)}
+                    onClick={() => { /* Handle exam click */ }}
                     className="flex-1 inline-flex justify-center items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
                   >
                     <PlayIcon className="h-4 w-4 mr-1" />

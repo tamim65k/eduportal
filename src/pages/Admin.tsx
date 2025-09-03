@@ -15,7 +15,10 @@ import {
 export default function Admin() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState('users');
-  const [showCreateModal, setShowCreateModal] = useState(false);
+  
+  const handleCreateUser = () => {
+    // Create user logic here
+  };
 
   if (user?.role !== 'admin') {
     return (
@@ -130,7 +133,7 @@ export default function Admin() {
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-medium text-gray-900">User Management</h3>
                 <button
-                  onClick={() => setShowCreateModal(true)}
+                  onClick={handleCreateUser}
                   className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
                 >
                   <PlusIcon className="h-4 w-4 mr-2" />

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { mockCourses } from '../data/mockData';
-import { CourseMaterial } from '../types';
 import { 
   DocumentTextIcon,
   VideoCameraIcon,

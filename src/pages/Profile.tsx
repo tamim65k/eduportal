@@ -1,6 +1,6 @@
-import React, { Fragment, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CameraIcon, PencilIcon, UserCircleIcon, AcademicCapIcon, EnvelopeIcon, PhoneIcon, CalendarIcon, MapPinIcon, LockClosedIcon, BellIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
+import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import { CameraIcon, PencilIcon, UserCircleIcon, LockClosedIcon, BellIcon, ShieldCheckIcon, AcademicCapIcon } from '@heroicons/react/24/outline';
 
 const tabs = [
   { name: 'Profile', icon: UserCircleIcon, current: true },
@@ -44,7 +44,8 @@ export default function Profile() {
   const [activeTab, setActiveTab] = useState('Profile');
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(profile);
-  const navigate = useNavigate();
+  // User authentication context is available if needed
+  useAuth();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -67,11 +68,6 @@ export default function Profile() {
   const handleSave = () => {
     setIsEditing(false);
     // In a real app, you would save the data to your backend here
-  };
-
-  const handleLogout = () => {
-    // In a real app, you would handle logout logic here
-    navigate('/login');
   };
 
   return (

@@ -1,10 +1,21 @@
-import React, { Fragment, useState } from 'react';
-import { CalendarIcon, ChevronLeftIcon, ChevronRightIcon, ClockIcon, MapPinIcon, UserCircleIcon } from '@heroicons/react/24/outline';
-import { Menu, Transition } from '@headlessui/react';
-import { format, addMonths, subMonths, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, parseISO } from 'date-fns';
+import React from 'react';
+import { CalendarIcon, ClockIcon, MapPinIcon, UserCircleIcon } from '@heroicons/react/24/outline';
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isSameDay, parseISO } from 'date-fns';
+
+interface ScheduleEvent {
+  id: number;
+  title: string;
+  instructor: string;
+  location: string;
+  startTime: string;
+  endTime: string;
+  type: string;
+  recurring: string[];
+}
+
 
 // Sample schedule data
-const scheduleData = [
+const scheduleData: ScheduleEvent[] = [
   {
     id: 1,
     title: 'Web Development',
@@ -63,7 +74,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-function getEventsForDay(day: Date) {
+function getEventsForDay(day: Date): ScheduleEvent[] {
   const dayOfWeek = days[day.getDay()];
   return scheduleData.filter(event => 
     isSameDay(parseISO(event.startTime), day) || 
@@ -74,19 +85,11 @@ function getEventsForDay(day: Date) {
 }
 
 export default function Schedule() {
-  const [currentMonth, setCurrentMonth] = useState(new Date());
-  const [selectedDay, setSelectedDay] = useState(new Date());
-  const [view, setView] = useState<'week' | 'month'>('month');
-
-  const nextMonth = () => setCurrentMonth(addMonths(currentMonth, 1));
-  const prevMonth = () => setCurrentMonth(subMonths(currentMonth, 1));
+  const currentMonth = new Date();
+  const selectedDay = new Date();
   const today = new Date();
-
   const monthStart = startOfMonth(currentMonth);
   const monthEnd = endOfMonth(currentMonth);
-  const monthDays = eachDayOfInterval({ start: monthStart, end: monthEnd });
-
-  const weekStartsOn = 1; // Start week on Monday
   const startDate = new Date(monthStart);
   const startDay = startDate.getDay();
   
@@ -108,92 +111,6 @@ export default function Schedule() {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col justify-between sm:flex-row sm:items-center">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-900">Schedule</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            {format(selectedDay, 'EEEE, MMMM d, yyyy')}
-          </p>
-        </div>
-        
-        <div className="flex items-center mt-4 space-x-3 sm:mt-0">
-          <div className="flex bg-white rounded-md shadow-sm">
-            <button
-              onClick={prevMonth}
-              className="flex items-center justify-center w-10 p-2 text-gray-400 border border-r-0 border-gray-300 rounded-l-md hover:bg-gray-50"
-            >
-              <ChevronLeftIcon className="w-5 h-5" aria-hidden="true" />
-            </button>
-            <button
-              onClick={() => setCurrentMonth(new Date())}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border-t border-b border-gray-300 hover:bg-gray-50"
-            >
-              Today
-            </button>
-            <div className="relative">
-              <Menu as="div" className="relative">
-                <Menu.Button className="inline-flex items-center justify-center w-32 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-l-0 border-r-0 border-gray-300 hover:bg-gray-50">
-                  {format(currentMonth, 'MMMM yyyy')}
-                </Menu.Button>
-                <Transition
-                  as={Fragment}
-                  enter="transition ease-out duration-100"
-                  enterFrom="transform opacity-0 scale-95"
-                  enterTo="transform opacity-100 scale-100"
-                  leave="transition ease-in duration-75"
-                  leaveFrom="transform opacity-100 scale-100"
-                  leaveTo="transform opacity-0 scale-95"
-                >
-                  <Menu.Items className="absolute right-0 z-10 w-56 mt-2 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                    <div className="py-1">
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            className={classNames(
-                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                              'block w-full px-4 py-2 text-sm text-left'
-                            )}
-                            onClick={() => setView('month')}
-                          >
-                            Month view
-                          </button>
-                        )}
-                      </Menu.Item>
-                      <Menu.Item>
-                        {({ active }) => (
-                          <button
-                            className={classNames(
-                              active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                              'block w-full px-4 py-2 text-sm text-left'
-                            )}
-                            onClick={() => setView('week')}
-                          >
-                            Week view
-                          </button>
-                        )}
-                      </Menu.Item>
-                    </div>
-                  </Menu.Items>
-                </Transition>
-              </Menu>
-            </div>
-            <button
-              onClick={nextMonth}
-              className="flex items-center justify-center w-10 p-2 text-gray-400 border border-l-0 border-gray-300 rounded-r-md hover:bg-gray-50"
-            >
-              <ChevronRightIcon className="w-5 h-5" aria-hidden="true" />
-            </button>
-          </div>
-          
-          <button
-            type="button"
-            className="inline-flex items-center px-4 py-2 text-sm font-medium text-white border border-transparent rounded-md shadow-sm bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-          >
-            Add Event
-          </button>
-        </div>
-      </div>
-
       <div className="bg-white rounded-lg shadow">
         {/* Calendar Header */}
         <div className="grid grid-cols-7 mt-4 text-sm leading-6 text-center text-gray-500">
@@ -221,7 +138,7 @@ export default function Schedule() {
                   dayIdx === 0 ? 'border-l' : '',
                   dayIdx % 7 === 0 ? 'border-l' : '',
                 )}
-                onClick={() => setSelectedDay(day)}
+                onClick={() => { /* Handle day click */ }}
               >
                 <div className="flex flex-col h-full">
                   <div className="flex items-center justify-between">

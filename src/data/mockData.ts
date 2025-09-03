@@ -1,4 +1,4 @@
-import { User, Course, Assignment, Attendance, Message, Grade, Exam, Announcement, CourseMaterial } from '../types';
+import { User, Course, Assignment, Attendance, Message, Grade, Exam, Announcement } from '../types';
 
 // Demo users
 export const mockUsers: User[] = [

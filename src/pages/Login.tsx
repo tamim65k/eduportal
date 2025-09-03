@@ -56,9 +56,9 @@ export default function Login() {
   };
 
   const demoCredentials = {
-    student: { email: 'john.doe@student.edu', password: 'password123' },
-    teacher: { email: 'sarah.smith@teacher.edu', password: 'password123' },
-    admin: { email: 'admin@university.edu', password: 'password123' }
+    student: { email: 'student@demo.com', password: 'demo123' },
+    teacher: { email: 'teacher@demo.com', password: 'demo123' },
+    admin: { email: 'admin@demo.com', password: 'demo123' }
   };
 
   const fillDemoCredentials = (role: UserRole) => {
